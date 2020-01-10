@@ -15,11 +15,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class CustomMessagingService extends FirebaseMessagingService {
+
+    String channelId = "com.example.notificationfcm";
+    String channelName = "FCMDemo";
+    private final int NOTIFICATION_ID = 001;
 
     NotificationManager notificationManager;
     Notification notification;
@@ -52,18 +57,18 @@ public class CustomMessagingService extends FirebaseMessagingService {
         //Include Notification Sound/Tone
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        if (Build.VERSION.SDK_INT>=26){
+        /*if (Build.VERSION.SDK_INT>=26){
 
             String channelId = "com.example.notificationfcm";
             String channelName = "FCMDemo";
 
-            NotificationChannel notificationChannel = new NotificationChannel(channelId,channelName,NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel notificationChannel = new NotificationChannel(channelId,channelName,NotificationManager.IMPORTANCE_DEFAULT);
             notificationChannel.setLightColor(Color.BLUE);
             notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
 
             assert notificationManager!= null;
             notificationManager.createNotificationChannel(notificationChannel);
-
+*/
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(CustomMessagingService.this,channelId);
             notificationBuilder.setOngoing(true)
                     .setSmallIcon(R.mipmap.ic_launcher)
@@ -76,8 +81,10 @@ public class CustomMessagingService extends FirebaseMessagingService {
                     .setDefaults(Notification.DEFAULT_VIBRATE|Notification.DEFAULT_LIGHTS)
                     .setContentIntent(pendingIntent);
 
-            notification = notificationBuilder.build();
-        }else {
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(NOTIFICATION_ID,notificationBuilder.build());
+
+        /*}else {
 
             Notification.Builder nb = new Notification.Builder(CustomMessagingService.this);
             nb.setSmallIcon(R.mipmap.ic_launcher);
@@ -98,7 +105,7 @@ public class CustomMessagingService extends FirebaseMessagingService {
             startForeground(0,notification);
         }else {
             notificationManager.notify(0,notification);
-        }
+        }*/
 
 
     }
