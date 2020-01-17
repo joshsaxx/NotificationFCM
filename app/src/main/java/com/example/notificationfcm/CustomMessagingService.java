@@ -63,7 +63,7 @@ public class CustomMessagingService extends FirebaseMessagingService {
             String channelId = "com.example.notificationfcm";
             String channelName = "FCMDemo";
 
-            NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.setLightColor(Color.BLUE);
             notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
 
@@ -76,12 +76,15 @@ public class CustomMessagingService extends FirebaseMessagingService {
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setColor(Color.BLUE)
                     .setAutoCancel(true)
-                    .setTicker(noteMSg)
                     .setContentTitle(noteTitle)
                     .setContentText(noteMSg)
                     .setSound(alarmSound)
-                    .setDefaults(Notification.DEFAULT_VIBRATE|Notification.DEFAULT_LIGHTS)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setContentIntent(pendingIntent);
+                    //.setTicker(noteMSg)
+                    //.setDefaults(Notification.DEFAULT_VIBRATE|Notification.DEFAULT_LIGHTS)
+                    /*.setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)*/
 
 
         notificationManagerCompat.notify(NOTIFICATION_ID,notificationBuilder.build());
